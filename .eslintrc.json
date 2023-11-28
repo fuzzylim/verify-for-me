@@ -1,0 +1,12 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/no-floating-promises": "error"
+  },
+  "root": true
+}
