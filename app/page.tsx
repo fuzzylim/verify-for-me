@@ -121,7 +121,7 @@ export default function Home() {
 				</svg>
 			</blockquote>
 			<div className="text-center mt-8">
-				<p>🧘 Take a breath. Real organisations won’t put you under pressure to act instantly.</p>
+				<p>🧘 Take a breath. Real organisations won’t put you under pressure to act instantly!</p>
 			</div>
 			{verificationCode ? (
 				<>
