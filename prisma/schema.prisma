@@ -38,12 +38,15 @@ model TrustedDomain {
 
 model Business {
   // as provided by australian business register
-  id             Int             @id @default(autoincrement())
-  name           String
-  category       Category?       @relation(fields: [categoryId], references: [id])
-  categoryId     Int?
-  claims         Claim[]
-  trustedDomains TrustedDomain[]
+  id                     Int             @id @default(autoincrement())
+  name                   String
+  abn                    String
+  abnStatus              String
+  abnStatusEffectiveFrom DateTime
+  category               Category?       @relation(fields: [categoryId], references: [id])
+  categoryId             Int?
+  claims                 Claim[]
+  trustedDomains         TrustedDomain[]
 }
 
 model Category {

@@ -1,7 +1,8 @@
 import prisma from '@/lib/prisma';
 import { WhoisDetails, getWhoisData } from '@/lib/whois';
 import pusher from './pusher';
-import { TrustedDomain } from '@prisma/client';
+import { Business, TrustedDomain } from '@prisma/client';
+import { AbnResponse, getBusinessDetails } from './abr';
 
 const EVENT_PREFIX = 'look-who-otp-verify-';
 
@@ -28,11 +29,17 @@ export async function handleVerification(emailAddress: string, subject: string) 
 
 	const suppliedDomain = emailAddress.split('@')[1];
 	const trustedDomain = await getOrCreateTrustedDomain(suppliedDomain);
+	const business = trustedDomain && trustedDomain.abn ? await getOrCreateBusiness(trustedDomain.abn) : null;
 
 	if (trustedDomain) {
-		await triggerPusherEvent(verificationCode.id, trustedDomain, 'trusted');
+		await triggerPusherEvent(verificationCode.id, trustedDomain, business, 'trusted');
 	} else {
-		await triggerPusherEvent(verificationCode.id, { domain: suppliedDomain, company: '', abn: '' }, 'not-trusted');
+		await triggerPusherEvent(
+			verificationCode.id,
+			{ domain: suppliedDomain, company: '', abn: '' },
+			null,
+			'not-trusted',
+		);
 	}
 }
 
@@ -92,6 +99,29 @@ async function getOrCreateTrustedDomain(domain: string) {
 	return trustedDomain;
 }
 
+async function getOrCreateBusiness(abn: string) {
+	let business = await prisma.business.findFirst({ where: { abn } });
+	if (business) {
+		console.debug('Business found in database.');
+		return business;
+	}
+
+	console.debug('Business not found in database. Fetching ABN data...');
+	const details = await getBusinessDetails(abn);
+	if (details) {
+		business = await prisma.business.create({
+			data: {
+				abn: details.Abn,
+				name: details.EntityName,
+				abnStatus: details.AbnStatus,
+				abnStatusEffectiveFrom: details.AbnStatusEffectiveFrom,
+			},
+		});
+	}
+
+	return business;
+}
+
 async function fetchWhoisData(domain: string): Promise<WhoisDetails | null> {
 	try {
 		const details: WhoisDetails | null = await getWhoisData(domain);
@@ -109,6 +139,7 @@ async function fetchWhoisData(domain: string): Promise<WhoisDetails | null> {
 async function triggerPusherEvent(
 	verificationId: string,
 	{ domain, company, abn }: Partial<TrustedDomain>,
+	business: Business | null,
 	status: 'trusted' | 'not-trusted',
 ) {
 	const domainData = {
@@ -116,6 +147,8 @@ async function triggerPusherEvent(
 		company,
 		abn,
 		status,
+		abnStatus: business ? business.abnStatus : undefined,
+		abnStatusEffectiveFrom: business ? business.abnStatusEffectiveFrom : undefined,
 	};
 
 	try {
