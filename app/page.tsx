@@ -21,7 +21,7 @@ export default function Home() {
 	const displaySeconds = secondsLeft % 60;
 
 	useEffect(() => {
-		const pusher = new Pusher('9111c089ddd5ab37e914', {
+		const pusher = new Pusher('94ab5d02ee6bc996ee20', {
 			cluster: 'ap1',
 		});
 
