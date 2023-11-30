@@ -2,20 +2,20 @@ import fetch from 'node-fetch';
 
 export interface AbnResponse {
 	/*
-    "Abn": "74172177893",
-    "AbnStatus": "Active",
-    "AbnStatusEffectiveFrom": "1999-11-01",
-    "Acn": "",
-    "AddressDate": "2020-02-04",
-    "AddressPostcode": "2601",
-    "AddressState": "ACT",
-    "BusinessName": [],
-    "EntityName": "THE TRUSTEE FOR PSS FUND",
-    "EntityTypeCode": "CSP",
-    "EntityTypeName": "Commonwealth Government APRA Regulated Public Sector Scheme",
-    "Gst": "2000-07-01",
-    "Message": ""
-    */
+	"Abn": "74172177893",
+	"AbnStatus": "Active",
+	"AbnStatusEffectiveFrom": "1999-11-01",
+	"Acn": "",
+	"AddressDate": "2020-02-04",
+	"AddressPostcode": "2601",
+	"AddressState": "ACT",
+	"BusinessName": [],
+	"EntityName": "THE TRUSTEE FOR PSS FUND",
+	"EntityTypeCode": "CSP",
+	"EntityTypeName": "Commonwealth Government APRA Regulated Public Sector Scheme",
+	"Gst": "2000-07-01",
+	"Message": ""
+	*/
 	Abn: string;
 	AbnStatus: string;
 	AbnStatusEffectiveFrom: string;
@@ -39,6 +39,8 @@ export async function getBusinessDetails(abn: string): Promise<AbnResponse> {
 	}
 
 	const url = `https://abr.business.gov.au/json/AbnDetails.aspx?abn=${abn}&guid=${abnGuid}`;
+
+	console.debug('Fetching ABN details from:', url);
 
 	try {
 		const response = await fetch(url);
