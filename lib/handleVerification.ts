@@ -31,6 +31,7 @@ export async function handleVerification(emailAddress: string, subject: string) 
 	const trustedDomain = await getOrCreateTrustedDomain(suppliedDomain);
 	const business = trustedDomain && trustedDomain.abn ? await getOrCreateBusiness(trustedDomain.abn) : null;
 
+	console.debug('About to trigger Pusher event...');
 	if (trustedDomain) {
 		await triggerPusherEvent(verificationCode.id, trustedDomain, business, 'trusted');
 	} else {
@@ -108,6 +109,7 @@ async function getOrCreateBusiness(abn: string) {
 
 	console.debug('Business not found in database. Fetching ABN data...');
 	const details = await getBusinessDetails(abn);
+	console.debug('About to save ABN data:', details);
 	if (details) {
 		business = await prisma.business.create({
 			data: {
