@@ -57,12 +57,8 @@ export async function getBusinessDetails(businessIdentifier: string): Promise<Ab
 		if (!response.ok) {
 			throw new Error(`Error fetching business details. Status: ${response.status}`);
 		}
-		const data = await response.json();
-
-		if (!data || data.error) {
-			throw new Error(`Error in response data: ${data.error || 'Unknown error'}`);
-		}
-
+		const data = await response.text();
+		console.debug('Response:', data);
 		// The response is wrapped in a callback function, so we need to extract the JSON part
 		const jsonStr = data.substring(data.indexOf('{'), data.lastIndexOf('}') + 1);
 		return JSON.parse(jsonStr) as AbnResponse;
