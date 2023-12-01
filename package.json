@@ -1,5 +1,5 @@
 {
-  "name": "lookwhoscalling",
+  "name": "verify-for-me",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "build:db": "prisma generate",
     "build": "npm run build:db && next build",
     "start": "next start",
-    "pretty": "prettier . --write --loglevel warn",
+    "pretty": "prettier . --write --log-level warn",
     "pretty:check": "prettier . --check",
     "lint": "next lint"
   },
