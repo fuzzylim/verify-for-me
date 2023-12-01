@@ -40,10 +40,10 @@ export async function getBusinessDetails(businessIdentifier: string): Promise<Ab
 
 	// Detect and strip the prefix, and set the appropriate URL
 	let url;
-	if (businessIdentifier.startsWith("ABN")) {
+	if (businessIdentifier.startsWith('ABN')) {
 		const abn = businessIdentifier.substring(3); // Remove "ABN" prefix
 		url = `https://abr.business.gov.au/json/AbnDetails.aspx?abn=${abn}&guid=${abnGuid}`;
-	} else if (businessIdentifier.startsWith("ACN")) {
+	} else if (businessIdentifier.startsWith('ACN')) {
 		const acn = businessIdentifier.substring(3); // Remove "ACN" prefix
 		url = `https://abr.business.gov.au/json/AcnDetails.aspx?acn=${acn}&guid=${abnGuid}`; // Assuming a different endpoint for ACN
 	} else {

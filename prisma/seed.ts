@@ -88,7 +88,6 @@ async function main() {
 	// 	},
 	// 	// add insurance, etc...
 	// ];
-
 	// for (const category of categories) {
 	// 	const newCategory = await prisma.category.create({
 	// 		data: {
@@ -96,12 +95,10 @@ async function main() {
 	// 			description: category.description,
 	// 		},
 	// 	});
-
 	// 	for (const business of category.businesses) {
 	// 		const existingBusiness = await prisma.business.findFirst({
 	// 			where: { name: business.name },
 	// 		});
-
 	// 		if (!existingBusiness) {
 	// 			const newBusiness = await prisma.business.create({
 	// 				data: {
@@ -114,7 +111,6 @@ async function main() {
 	// 						: null,
 	// 				},
 	// 			});
-
 	// 			for (const claim of business.claims) {
 	// 				await prisma.claim.create({
 	// 					data: {
