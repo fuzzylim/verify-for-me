@@ -81,7 +81,7 @@ async function logVerificationAttempt(emailAddress: string, attemptedCode: strin
 async function getOrCreateTrustedDomain(domain: string) {
 	let trustedDomain = await prisma.trustedDomain.findFirst({ where: { domain } });
 	if (trustedDomain) {
-		console.debug('Trusted domain found in database.');
+		console.debug('Trusted domain found in database.', trustedDomain);
 		return trustedDomain;
 	}
 
@@ -108,8 +108,32 @@ async function getOrCreateBusiness(abn: string) {
 	}
 
 	console.debug('Business not found in database. Fetching ABN data...');
-	const details = await getBusinessDetails(abn);
-	console.debug('About to save ABN data:', details);
+	// const details = await getBusinessDetails(abn);
+	const details = {
+		Abn: '38633072830',
+		AbnStatus: 'Active',
+		AbnStatusEffectiveFrom: '2019-10-01',
+		Acn: '633072830',
+		AddressDate: '2020-12-23',
+		AddressPostcode: '2000',
+		AddressState: 'NSW',
+		BusinessName: [
+			'HEY KIT',
+			'CHEDDAR APP',
+			'Credit Savvy Australia',
+			'Home-in Digital',
+			'BACKR SOFTWARE',
+			'VONTO APP',
+			'WATTLE ENERGY',
+			'X15 Ventures',
+		],
+		EntityName: 'CBA NEW DIGITAL BUSINESSES PTY LTD',
+		EntityTypeCode: 'PRV',
+		EntityTypeName: 'Australian Private Company',
+		Gst: '2019-10-01',
+		Message: '',
+	};
+
 	if (details) {
 		business = await prisma.business.create({
 			data: {
@@ -119,6 +143,8 @@ async function getOrCreateBusiness(abn: string) {
 				abnStatusEffectiveFrom: details.AbnStatusEffectiveFrom,
 			},
 		});
+		console.debug('Saved ABN data:', details);
+
 	}
 
 	return business;
