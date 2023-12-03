@@ -116,7 +116,7 @@ async function getOrCreateBusiness(abn: string) {
 				abn: details.Abn,
 				name: details.EntityName,
 				abnStatus: details.AbnStatus,
-				abnStatusEffectiveFrom: details.AbnStatusEffectiveFrom,
+				abnStatusEffectiveFrom: new Date(details.AbnStatusEffectiveFrom),
 			},
 		});
 	}
