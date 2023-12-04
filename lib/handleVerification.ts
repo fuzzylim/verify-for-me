@@ -114,13 +114,13 @@ async function getOrCreateBusiness(abn: string) {
 	if (details) {
 		business = await prisma.business.create({
 			data: {
-				abn: details.Abn,
+				abn: abn,
 				name: details.EntityName,
 				abnStatus: details.AbnStatus,
 				abnStatusEffectiveFrom: new Date(details.AbnStatusEffectiveFrom),
 			},
 		});
-		console.debug('Saved ABN data:', details);
+		console.debug('Saved business register data:', details);
 
 	}
 
