@@ -133,7 +133,7 @@ export default function Home() {
 						<div className="text-lg text-center">
 							<p className="mb-2">Ask the caller to email</p>
 							<a
-								href={`mailto:${verificationCode.code}@verifyfor.me?subject=${verificationCode.code}`}
+								href={`mailto:please@verifyfor.me?subject=${verificationCode.code}`}
 								className="inline-block px-3 py-2 my-1 bg-indigo-600 text-white rounded-md text-xl font-semibold hover:bg-indigo-800 transition duration-200"
 							>
 								please@verifyfor.me
