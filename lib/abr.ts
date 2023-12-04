@@ -54,6 +54,8 @@ export async function getBusinessDetails(businessIdentifier: string): Promise<Ab
 
 	try {
 		const response = await fetch(url);
+		console.debug('Response:', response);
+
 		if (!response.ok) {
 			throw new Error(`Error fetching business details. Status: ${response.status}`);
 		}
